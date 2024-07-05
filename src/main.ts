@@ -1,8 +1,20 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { NotificationModule } from './notification/notification.module';
+import { Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
+  const app = await NestFactory.createMicroservice(NotificationModule, {
+    transport: Transport.RMQ,
+    options: {
+      name:'rabbit@7c830cb07675' ,
+      urls: ['amqp://localhost:5672'], // Adjust URL based on your RabbitMQ setup
+      queue: 'orders_queue', // Queue name
+      queueOptions: {
+        durable: true, // Make the queue durable
+      },
+    },
+  });
+
+  await app.listen();
 }
 bootstrap();
