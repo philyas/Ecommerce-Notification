@@ -6,7 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.createMicroservice(NotificationModule, {
     transport: Transport.RMQ,
     options: {
-      name:'rabbit@7c830cb07675' ,
+      name:'RABBIT_ORDERS' ,
       urls: ['amqp://localhost:5672'], // Adjust URL based on your RabbitMQ setup
       queue: 'orders_queue', // Queue name
       queueOptions: {

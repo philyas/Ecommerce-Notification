@@ -1,18 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Inject } from '@nestjs/common';
 import { NotificationService } from './notification.service';
 import { CreateNotificationDto } from './dto/create-notification.dto';
 import { UpdateNotificationDto } from './dto/update-notification.dto';
 import { EventPattern } from '@nestjs/microservices';
+import { ClientProxy } from '@nestjs/microservices';
 
 
 @Controller('notification')
 export class NotificationController {
-  constructor(private readonly notificationService: NotificationService) {}
+
+  constructor(
+    private readonly notificationService: NotificationService 
+  ) {}
 
   @EventPattern('order_created')
   handleOrderCreated(data: any) {
     console.log('Received Order Created Event:', data);
-   // Logic after receiving data..
   }
 
   @Post()
